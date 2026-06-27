@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  backend:
+    image: muchtodo:v1
+    container_name: muchtodo-backend
+    restart: unless-stopped
+
+    ports:
+      - "8080:8080"
+
+    env_file:
+      - .env
+
+    depends_on:
+      - mongodb
+
+    networks:
+      - backend
+
+  mongodb:
+    image: mongo:7.0
+    container_name: mongodb
+    restart: unless-stopped
+
+    ports:
+      - "27017:27017"
+
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: much_todo_db
+
+    command:
+      - --bind_ip_all
+
+    volumes:
+      - mongo_data:/data/db
+
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+    networks:
+      - backend
+
+volumes:
+  mongo_data:
+
+networks:
+  backend:
+    driver: bridge

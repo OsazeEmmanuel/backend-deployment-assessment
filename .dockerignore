@@ -1,0 +1,16 @@
+.git
+.gitignore
+
+.env
+*.log
+
+terraform/.terraform/
+
+node_modules/
+
+vendor/
+
+.vscode/
+.idea/
+
+

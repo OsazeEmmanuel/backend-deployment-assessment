@@ -1,0 +1,7 @@
+aws_region   = "us-east-1"
+
+instance_type = "t3.micro"
+
+my_ip = "102.90.101.178/32"
+
+key_name = "aws-new-key"
